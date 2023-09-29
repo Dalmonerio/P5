@@ -1,0 +1,74 @@
+body {
+    background-color: #0B0518FF;
+    height: 100%;
+    margin: 0px 0px 0px 0px;
+}
+
+p, li {
+    font-family: Rubik;
+    font-size: 80%;
+    letter-spacing: 2px;
+    color: #DEEFFFFF;
+    text-shadow: 0px 0px 8px #20AEC460, 0px 0px 16px #000000FF;
+}
+
+h1, h2, h3, h4 {
+    font-family: Jura;
+    color: #DEEFFF;
+    text-align: center;
+    text-shadow: 0px 0px 16px #20AEC4A0, 0px 0px 32px #000000FF, 0px 0px 32px #000000FF;
+}
+
+h1 {
+    letter-spacing: 12px;
+    font-size: 350%;
+}
+
+h2 {
+    letter-spacing: 10px;
+    font-size: 250%;
+}
+
+h3 {
+    letter-spacing: 8px;
+    font-size: 150%;
+}
+
+h4 {
+    letter-spacing: 7px;
+    font-size: 125%;
+}
+
+tr td {
+    padding: 0px;
+    margin: 0px;
+}
+
+.page {
+    width: 100%;
+    border-width: 0px;
+    border-spacing: 0px 100px;
+}
+
+.section {
+    background-color: #00000080;
+}
+
+.header {
+    width: 100%;
+}
+
+.header-logo {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.header-logo .school-logo {
+    height: 180px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.header-logo .p5-logo {
+    height: 240px;
+}
