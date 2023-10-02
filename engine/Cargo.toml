@@ -1,0 +1,27 @@
+[package]
+name = "engine"
+version = "0.1.0"
+edition = "2021"
+resolver = "2"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "bootstrap"
+path = "src/bootstrap.rs"
+
+[dependencies.bevy]
+version = "0.11.3"
+default-features = false
+features = [
+    "bevy_winit",
+    "bevy_render",
+    "bevy_core_pipeline",
+    "bevy_sprite",
+    "png",
+    "webgl2",
+]
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
