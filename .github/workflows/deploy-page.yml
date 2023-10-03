@@ -48,7 +48,7 @@ jobs:
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: tests
+          workspaces: engine
 
       - name: Install WASM Pack
         uses: baptiste0928/cargo-install@v2
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           path: 'web/'
-          
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
