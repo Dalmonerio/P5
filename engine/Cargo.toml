@@ -23,6 +23,7 @@ features = [
     "bevy_render",
     "bevy_core_pipeline",
     "bevy_sprite",
+    "x11",
     "png",
     "webgl2",
 ]

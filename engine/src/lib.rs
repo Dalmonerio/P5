@@ -2,7 +2,9 @@ use bevy::{
     prelude::*,
     core_pipeline::clear_color::ClearColorConfig,
     ecs::system::SystemState,
-    window::PrimaryWindow,
+    window::{
+        PrimaryWindow, PresentMode,
+    },
 };
 use bevy_asset_loader::prelude::*;
 use rand::prelude::*;
@@ -83,7 +85,7 @@ pub fn run() {
     App::new()
         .add_state::<EngineState>()
 
-        .insert_resource(Msaa::Sample4)
+        .insert_resource(Msaa::Off)
         .add_plugins(DefaultPlugins
             .set(AssetPlugin {
                 #[cfg(target_arch = "wasm32")]
@@ -95,6 +97,7 @@ pub fn run() {
                     canvas: Some("#bg-canvas".into()),
                     prevent_default_event_handling: false,
                     fit_canvas_to_parent: true,
+                    present_mode: PresentMode::AutoVsync,
                     ..default()
                 }),
                 ..default()
