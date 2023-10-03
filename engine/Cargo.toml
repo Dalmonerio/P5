@@ -13,9 +13,10 @@ path = "src/bootstrap.rs"
 
 [dependencies]
 bevy_asset_loader = "0.17"
+rand = "0.8"
 
 [dependencies.bevy]
-version = "0.11.3"
+version = "0.11"
 default-features = false
 features = [
     "bevy_winit",
