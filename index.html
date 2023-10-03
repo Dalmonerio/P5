@@ -8,6 +8,17 @@
         <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Rubik|Jura">
     </head>
     <body>
+        <div class="bg-container">
+            <canvas id="bg-canvas">
+                <script type="module">
+                    import init from "./engine/pkg/engine.js";
+                    init().then(() => console.log("Background module loaded"));
+                </script>
+            </canvas>
+        </div>
+            
+        </div>
+
         <table class="page">
             <tr><td class="section">
                 <table class="header">
