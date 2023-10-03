@@ -40,21 +40,26 @@ jobs:
             profile: minimal
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tests
       - name: Compile project
+        working-directory: engine/
         run: |
-          rm .gitignore *.md
-          
-          cd engine/
           cargo install wasm-pack
           wasm-pack build --target web
+      - name: Setup web structure
+        run: |
+          mkdir web/
+          mkdir web/engine/
+          mkdir web/engine/pkg/
           
-          rm pkg/{.gitignore,*.ts,*.json}
-          rm -r target/
-          rm Cargo*
+          mv *.html *.css *.png web/
+          mv engine/assets/ web/engine/
+          mv engine/pkg/{engine.js,engine_bg.wasm} web/engine/pkg/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'
+          path: 'web/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
