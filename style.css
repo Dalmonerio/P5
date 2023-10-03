@@ -58,7 +58,7 @@ p, li {
 }
 
 .section {
-    background-color: #00000096;
+    background-color: #00000032;
     padding-bottom: 20px;
 }
 
@@ -69,12 +69,22 @@ p, li {
     text-justify: inter-character;
 }
 
-.header, .title {
+.title {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.title-inner {
     width: 100%;
 }
 
-.header-paren p {
+.header-paren {
+    width: 0px;
+    text-align: center;
     text-indent: 0px;
+    font-family: Rubik;
+    text-shadow: 0px 0px 8px #20AEC460, 0px 0px 16px #000000FF;
     letter-spacing: 0px;
     line-height: 0px;
     font-size: 800%;

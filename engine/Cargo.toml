@@ -1,8 +1,12 @@
 [package]
 name = "engine"
+description = "Background animations for our P5 project."
 version = "0.1.0"
 edition = "2021"
 resolver = "2"
+authors = ["GlennFolker", "Spacetier-X"]
+license = "Apache-2.0"
+repository = "https://github.com/Dalmonerio/P5/"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

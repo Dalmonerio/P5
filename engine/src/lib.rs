@@ -121,7 +121,7 @@ pub fn run() {
 fn init(mut commands: Commands) {
     commands.spawn(Camera2dBundle {
         camera_2d: Camera2d {
-            clear_color: ClearColorConfig::Custom(Color::hex("#0B0518FF").unwrap()),
+            clear_color: ClearColorConfig::Custom(Color::hex("#0b0518ff").unwrap()),
         },
         transform: Transform::from_xyz(0.0, 0.0, 100.0),
         ..default()
