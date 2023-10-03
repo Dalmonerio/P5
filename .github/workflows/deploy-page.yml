@@ -1,0 +1,55 @@
+name: Deploy static web to Pages
+
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+      - name: SCCache
+        uses: mozilla-actions/sccache-action@v0.0.3
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            target: wasm32-unknown-unknown
+            default: true
+            profile: minimal
+      - name: Compile project
+        run: |
+          rm .gitignore *.md
+          
+          cd engine/
+          cargo install wasm-pack
+          wasm-pack build --target web
+          
+          rm pkg/{.gitignore,*.ts,*.json}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
