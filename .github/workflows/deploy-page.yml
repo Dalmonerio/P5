@@ -19,18 +19,24 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
     env:
       SCCACHE_GHA_ENABLED: "true"
       RUSTC_WRAPPER: "sccache"
       CARGO_TERM_COLOR: "always"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Configure Pages
         uses: actions/configure-pages@v3
+
       - name: SCCache
         uses: mozilla-actions/sccache-action@v0.0.3
+
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -38,15 +44,21 @@ jobs:
             target: wasm32-unknown-unknown
             default: true
             profile: minimal
+
       - name: Cache dependencies
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: tests
+
+      - name: Install WASM Pack
+        uses: baptiste0928/cargo-install@v2
+        with:
+          crate: wasm-pack
+
       - name: Compile project
         working-directory: engine/
-        run: |
-          cargo install wasm-pack
-          wasm-pack build --target web
+        run: wasm-pack build --target web
+
       - name: Setup web structure
         run: |
           mkdir web/
@@ -56,10 +68,12 @@ jobs:
           mv *.html *.css *.png web/
           mv engine/assets/ web/engine/
           mv engine/pkg/{engine.js,engine_bg.wasm} web/engine/pkg/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: 'web/'
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
