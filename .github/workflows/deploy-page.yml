@@ -23,6 +23,7 @@ jobs:
     env:
       SCCACHE_GHA_ENABLED: "true"
       RUSTC_WRAPPER: "sccache"
+      CARGO_TERM_COLOR: "always"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -37,6 +38,8 @@ jobs:
             target: wasm32-unknown-unknown
             default: true
             profile: minimal
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
       - name: Compile project
         run: |
           rm .gitignore *.md
@@ -46,6 +49,8 @@ jobs:
           wasm-pack build --target web
           
           rm pkg/{.gitignore,*.ts,*.json}
+          rm -r target/
+          rm Cargo*
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
