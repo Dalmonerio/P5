@@ -22,10 +22,16 @@ enum EngineState {
 
 #[derive(AssetCollection, Resource)]
 struct Sprites {
-    #[asset(path = "bottle.png")]
+    #[asset(path = "sprites/bottle.png")]
     bottle: Handle<Image>,
-    #[asset(path = "circle.png")]
+    #[asset(path = "sprites/circle.png")]
     circle: Handle<Image>,
+    #[asset(path = "sprites/bin.png")]
+    bin: Handle<Image>,
+    #[asset(path = "sprites/rubbish.png")]
+    rubbish: Handle<Image>,
+    #[asset(path = "sprites/sort.png")]
+    sort: Handle<Image>,
 }
 
 #[derive(Resource, Deref)]
@@ -52,6 +58,9 @@ impl FromWorld for Atlas {
 
         add(&mut sprites.bottle);
         add(&mut sprites.circle);
+        add(&mut sprites.bin);
+        add(&mut sprites.rubbish);
+        add(&mut sprites.sort);
 
         let atlas = builder.finish(&mut images).unwrap();
         Self(atlases.add(atlas))
@@ -137,26 +146,61 @@ fn spawn_particles(
 
     let mut rng = thread_rng();
     let chance = (window.width() * window.height()) / (1920.0 * 1080.0);
-    if rng.gen::<f32>() * time.delta_seconds() <= chance * 0.4 {
+    if rng.gen::<f32>() * time.delta_seconds() * 60.0 <= chance {
         commands.spawn((
-            Timed::new(2.4),
+            Timed::new(1.2),
             Particle {
-                deviate: Vec2::from_angle(rng.gen::<f32>() * 2.0 * PI) * rng.gen_range(16.0f32..64.0f32),
-                alpha: rng.gen_range(0.3f32..0.7f32),
+                deviate: Vec2::from_angle(rng.gen::<f32>() * 2.0 * PI) * rng.gen_range(16.0f32..=64.0f32),
+                alpha: rng.gen_range(0.3f32..=0.7f32),
             },
             SpriteSheetBundle {
                 sprite: TextureAtlasSprite {
                     index: atlas.index(&atlases, &sprites.circle),
-                    custom_size: Some(Vec2::splat(rng.gen_range(24.0f32..84.0f32))),
-                    color: Color::hex("#251240").unwrap().with_a(0.),
+                    custom_size: Some(Vec2::splat(rng.gen_range(24.0f32..=64.0f32))),
+                    color: Color::hex("#251240").unwrap().with_a(0.0),
                     ..default()
                 },
                 texture_atlas: atlas.clone_weak(),
                 transform: Transform::from_xyz(
                     (rng.gen::<f32>() - 0.5) * window.width(),
                     (rng.gen::<f32>() - 0.5) * window.height(),
-                    0.0,
+                    rng.gen_range(0f32..1f32),
                 ),
+                ..default()
+            },
+        ));
+    }
+
+    if rng.gen::<f32>() * time.delta_seconds() * 60.0 <= chance * 0.4 {
+        let sprites = [&sprites.bottle, &sprites.bin, &sprites.rubbish, &sprites.sort];
+        let sizes = [1.6, 1.4, 1.5, 1.8];
+
+        let index = rng.gen_range(0f32..1f32);
+        let index = 1.0 * (index - 1.0) * (index - 1.0);
+        let index = (index * sprites.len() as f32) as usize;
+        commands.spawn((
+            Timed::new(1.2),
+            Particle {
+                deviate: Vec2::from_angle(rng.gen::<f32>() * 2.0 * PI) * rng.gen_range(16.0f32..=64.0f32),
+                alpha: rng.gen_range(0.15f32..=0.35f32),
+            },
+            SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
+                    index: atlas.index(&atlases, sprites[index]),
+                    custom_size: Some(Vec2::splat(rng.gen_range(24.0f32..=96.0f32) * sizes[index])),
+                    color: Color::WHITE.with_a(0.0),
+                    ..default()
+                },
+                texture_atlas: atlas.clone_weak(),
+                transform: Transform {
+                    translation: Vec3::new(
+                        (rng.gen::<f32>() - 0.5) * window.width(),
+                        (rng.gen::<f32>() - 0.5) * window.height(),
+                        rng.gen_range(0f32..1f32),
+                    ),
+                    rotation: Quat::from_axis_angle(Vec3::Z, rng.gen_range(0f32..PI * 2.0f32)),
+                    ..default()
+                },
                 ..default()
             },
         ));

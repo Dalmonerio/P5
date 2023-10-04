@@ -65,7 +65,7 @@ jobs:
           mkdir web/engine/
           mkdir web/engine/pkg/
           
-          mv *.html *.css *.png web/
+          mv *.html *.css *.png *.ico web/
           mv engine/assets/ web/engine/
           mv engine/pkg/{engine.js,engine_bg.wasm} web/engine/pkg/
 
